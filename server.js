@@ -4,12 +4,12 @@ const bodyParser = require('body-parser');
 const { Schema } = mongoose;
 const path = require('path');
 const fs = require('fs');
-const port = 3000;  // Updated port to 5500
+const port = process.env.PORT || 3000; // Use Render's dynamic port
 
 const app = express();
 
 // MongoDB connection URI
-const mongoURI = 'mongodb+srv://hdsarvaiya142004:bG4prFr61oI9vRB1@cluster0.wykyqsn.mongodb.net/Heheheheh';
+const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://hdsarvaiya142004:bG4prFr61oI9vRB1@cluster0.wykyqsn.mongodb.net/Heheheheh';
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
