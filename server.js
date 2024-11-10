@@ -9,7 +9,7 @@ const port = 3000;  // Updated port to 5500
 const app = express();
 
 // MongoDB connection URI
-const mongoURI = 'mongodb://localhost:27017/yourDatabase';
+const mongoURI = 'mongodb+srv://hdsarvaiya142004:bG4prFr61oI9vRB1@cluster0.wykyqsn.mongodb.net/Heheheheh';
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
