@@ -9,12 +9,69 @@
   <h1>Uploaded Images</h1>
   
   <div id="imageGallery"></div>
+  <h1>Form Data</h1>
+
+  <table id="formDataTable">
+    <thead>
+      <tr>
+        <th>Selected Species</th>
+        <th>Selected Breed</th>
+        <th>Selected Breed Type</th>
+        <th>Left Horn Selected</th>
+        <th>Right Horn Selected</th>
+        <th>Tail Switched</th>
+        <th>Selected Age</th>
+        <th>Selected Lactation</th>
+        <th>Selected Calving Month</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data will be injected here -->
+    </tbody>
+  </table>
 
   <script>
+    // Function to fetch form data from the server and display it in the table
+    async function fetchFormData() {
+      try {
+        const response = await fetch('http://192.168.29.245:3000/api/formData');
+        const data = await response.json();
+
+        if (data.formData && data.formData.length > 0) {
+          const tableBody = document.querySelector('#formDataTable tbody');
+          tableBody.innerHTML = '';  // Clear any previous data
+
+          // Loop through the form data and create table rows
+          data.formData.forEach(form => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${form.selectedSpecies}</td>
+              <td>${form.selectedBreed}</td>
+              <td>${form.selectedBreedType}</td>
+              <td>${form.isLeftHornSelected}</td>
+              <td>${form.isRightHornSelected}</td>
+              <td>${form.isTailSwitched}</td>
+              <td>${form.selectedAge}</td>
+              <td>${form.selectedLactation}</td>
+              <td>${form.selectedCalvingMonth}</td>
+            `;
+            tableBody.appendChild(row);
+          });
+        } else {
+          console.log('No form data found');
+        }
+      } catch (error) {
+        console.error('Error fetching form data:', error);
+      }
+    }
+
+    // Call fetchFormData on page load to display the data
+    window.onload = fetchFormData;
+  
     // Function to fetch images from the server and display them
     async function fetchImages() {
       try {
-        const response = await fetch('http://localhost:3000/');
+        const response = await fetch('http://192.168.29.245:3000/uploadMedia/getImages');
         const data = await response.json();
 
         if (data.images && data.images.length > 0) {

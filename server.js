@@ -4,21 +4,35 @@ const bodyParser = require('body-parser');
 const { Schema } = mongoose;
 const path = require('path');
 const fs = require('fs');
-const port = process.env.PORT || 3000; // Use Render's dynamic port
+const port = 3000;  // Updated port to 5500
 
 const app = express();
 
 // MongoDB connection URI
-const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://hdsarvaiya142004:bG4prFr61oI9vRB1@cluster0.wykyqsn.mongodb.net/Heheheheh';
+const mongoURI = 'mongodb+srv://hdsarvaiya142004:bG4prFr61oI9vRB1@cluster0.wykyqsn.mongodb.net/mernstack';
 
 // Connect to MongoDB
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true , serverSelectionTimeoutMS: 5000,});
 
 const conn = mongoose.connection;
 
 conn.once('open', () => {
   console.log("Connected to MongoDB");
 });
+const formDataSchema = new Schema({
+  selectedSpecies: String,
+  selectedBreed: String,
+  selectedBreedType: String,
+  isLeftHornSelected: Boolean,
+  isRightHornSelected: Boolean,
+  isTailSwitched: Boolean,
+  selectedAge: Number,
+  selectedLactation: Number,
+  selectedCalvingMonth: String,
+  createdAt: { type: Date, default: Date.now }
+});
+
+const FormDataModel = mongoose.model('FormData', formDataSchema);
 
 // Define the schema for storing base64 encoded images
 const imageSchema = new Schema({
@@ -30,6 +44,44 @@ const ImageModel = mongoose.model('Image', imageSchema);
 // Increase the limit for body parser to handle large image uploads
 app.use(bodyParser.json({ limit: '50mb' })); // Allow up to 50MB for JSON payload
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
+app.post('/api/submit', async (req, res) => {
+  try {
+    const {
+      selectedSpecies,
+      selectedBreed,
+      selectedBreedType,
+      isLeftHornSelected,
+      isRightHornSelected,
+      isTailSwitched,
+      selectedAge,
+      selectedLactation,
+      selectedCalvingMonth,
+    } = req.body;
+
+    // Create a new document with the received form data
+    const newFormData = new FormDataModel({
+      selectedSpecies,
+      selectedBreed,
+      selectedBreedType,
+      isLeftHornSelected,
+      isRightHornSelected,
+      isTailSwitched,
+      selectedAge,
+      selectedLactation,
+      selectedCalvingMonth
+    });
+
+    // Save the form data to MongoDB
+    await newFormData.save();
+
+    console.log('Form data saved successfully:', newFormData);
+    res.status(200).json({ message: 'Form data successfully submitted' });
+  } catch (error) {
+    console.error('Error saving form data:', error);
+    res.status(500).json({ message: 'Error saving form data', error });
+  }
+});
 
 // Route to handle image upload
 app.post('/uploadImages', async (req, res) => {
@@ -114,6 +166,93 @@ app.get('/', async (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
   
+  // Route to fetch form data from MongoDB
+// Route to fetch form data from MongoDB and display it in table format
+app.get('/api/formData', async (req, res) => {
+  try {
+    const formData = await FormDataModel.find(); // Fetch all form data from the database
+    
+    // Check if data exists
+    if (!formData || formData.length === 0) {
+      return res.status(404).send('No form data found.');
+    }
+
+    // Generate HTML table with form data
+    let tableRows = formData.map((data) => {
+      return `
+        <tr>
+          <td>${data.selectedSpecies}</td>
+          <td>${data.selectedBreed}</td>
+          <td>${data.selectedBreedType}</td>
+          <td>${data.isLeftHornSelected}</td>
+          <td>${data.isRightHornSelected}</td>
+          <td>${data.isTailSwitched}</td>
+          <td>${data.selectedAge}</td>
+          <td>${data.selectedLactation}</td>
+          <td>${data.selectedCalvingMonth}</td>
+          <td>${data.createdAt}</td>
+        </tr>
+      `;
+    }).join('');
+
+    // Return the table with form data
+    res.status(200).send(`
+      <html>
+        <head>
+          <title>Form Data</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              padding: 20px;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-top: 20px;
+            }
+            table, th, td {
+              border: 1px solid #ddd;
+            }
+            th, td {
+              padding: 8px;
+              text-align: left;
+            }
+            th {
+              background-color: #f4f4f4;
+            }
+          </style>
+        </head>
+        <body>
+          <h1>Form Data Table</h1>
+          <table>
+            <thead>
+              <tr>
+                <th>Species</th>
+                <th>Breed</th>
+                <th>Breed Type</th>
+                <th>Left Horn Selected</th>
+                <th>Right Horn Selected</th>
+                <th>Tail Switched</th>
+                <th>Age</th>
+                <th>Lactation</th>
+                <th>Calving Month</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRows}
+            </tbody>
+          </table>
+        </body>
+      </html>
+    `);
+  } catch (error) {
+    console.error('Error fetching form data: ', error);
+    res.status(500).json({ message: 'Error fetching form data', error });
+  }
+});
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
