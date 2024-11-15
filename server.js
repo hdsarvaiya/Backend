@@ -34,6 +34,8 @@ const formDataSchema = new Schema({
   selectedMilkYield: Number, // Added milk yield field
   selectedLactation: Number,
   selectedCalvingMonth: String,
+  selectedMilkYield : Number ,
+
   createdAt: { type: Date, default: Date.now },
 });
 
