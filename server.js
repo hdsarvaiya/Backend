@@ -51,12 +51,17 @@ app.post('/api/submit', async (req, res) => {
       selectedSpecies,
       selectedBreed,
       selectedBreedType,
+      selectedBodyColor,
       isLeftHornSelected,
       isRightHornSelected,
+      selectedLeftHorn,
+      selectedRightHorn,
       isTailSwitched,
+      selectedTailSwitch,
       selectedAge,
       selectedLactation,
       selectedCalvingMonth,
+      selectedMilkYield,
     } = req.body;
 
     // Create a new document with the received form data
@@ -64,12 +69,17 @@ app.post('/api/submit', async (req, res) => {
       selectedSpecies,
       selectedBreed,
       selectedBreedType,
+      selectedBodyColor,
       isLeftHornSelected,
       isRightHornSelected,
+      selectedLeftHorn,
+      selectedRightHorn,
       isTailSwitched,
+      selectedTailSwitch,
       selectedAge,
       selectedLactation,
-      selectedCalvingMonth
+      selectedCalvingMonth,
+      selectedMilkYield,
     });
 
     // Save the form data to MongoDB
