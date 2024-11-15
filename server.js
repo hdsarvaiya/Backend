@@ -24,11 +24,8 @@ const formDataSchema = new Schema({
   selectedBreed: String,
   selectedBreedType: String,
   selectedBodyColor: String, // Added body color
-  isLeftHornSelected: Boolean,
-  isRightHornSelected: Boolean,
   selectedLeftHorn: String, // Added left horn option
   selectedRightHorn: String, // Added right horn option
-  isTailSwitched: Boolean,
   selectedTailSwitch: String, // Added tail switch state
   selectedAge: Number,
   selectedMilkYield: Number, // Added milk yield field
@@ -58,11 +55,8 @@ app.post('/api/submit', async (req, res) => {
       selectedBreed,
       selectedBreedType,
       selectedBodyColor,
-      isLeftHornSelected,
-      isRightHornSelected,
       selectedLeftHorn,
       selectedRightHorn,
-      isTailSwitched,
       selectedTailSwitch,
       selectedAge,
       selectedLactation,
@@ -76,11 +70,8 @@ app.post('/api/submit', async (req, res) => {
       selectedBreed,
       selectedBreedType,
       selectedBodyColor,
-      isLeftHornSelected,
-      isRightHornSelected,
       selectedLeftHorn,
       selectedRightHorn,
-      isTailSwitched,
       selectedTailSwitch,
       selectedAge,
       selectedLactation,
@@ -201,11 +192,8 @@ app.get('/api/formData', async (req, res) => {
           <td>${data.selectedBreed}</td>
           <td>${data.selectedBreedType}</td>
           <td>${data.selectedBodyColor}</td> <!-- Added Body Color -->
-          <td>${data.isLeftHornSelected}</td>
-          <td>${data.isRightHornSelected}</td>
           <td>${data.selectedLeftHorn}</td> <!-- Added Left Horn -->
           <td>${data.selectedRightHorn}</td> <!-- Added Right Horn -->
-          <td>${data.isTailSwitched}</td>
           <td>${data.selectedTailSwitch}</td> <!-- Added Tail Switch -->
           <td>${data.selectedAge}</td>
           <td>${data.selectedLactation}</td>
@@ -252,11 +240,8 @@ app.get('/api/formData', async (req, res) => {
                 <th>Breed</th>
                 <th>Breed Type</th>
                 <th>Body Color</th> <!-- Added Body Color Column -->
-                <th>Left Horn Selected</th>
-                <th>Right Horn Selected</th>
                 <th>Left Horn</th> <!-- Added Left Horn Column -->
                 <th>Right Horn</th> <!-- Added Right Horn Column -->
-                <th>Tail Switched</th>
                 <th>Tail Switch</th> <!-- Added Tail Switch Column -->
                 <th>Age</th>
                 <th>Lactation</th>
