@@ -87,6 +87,10 @@ app.post('/api/submit', async (req, res) => {
       selectedCalvingMonth,
       selectedMilkYield,
       remarks,
+      tagNo,
+      tagDate,
+      marketValue,
+      vendorRemark,
       
     });
 
