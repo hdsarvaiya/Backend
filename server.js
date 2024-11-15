@@ -32,6 +32,7 @@ const formDataSchema = new Schema({
   selectedLactation: Number,
   selectedCalvingMonth: String,
   selectedMilkYield : Number ,
+  remarks: String, // Add remarks field
   createdAt: { type: Date, default: Date.now },
 });
 
@@ -61,7 +62,8 @@ app.post('/api/submit', async (req, res) => {
       selectedAge,
       selectedLactation,
       selectedCalvingMonth,
-      selectedMilkYield
+      selectedMilkYield,
+      remarks,
     } = req.body;
 
     // Create a new document with the received form data
@@ -77,6 +79,7 @@ app.post('/api/submit', async (req, res) => {
       selectedLactation,
       selectedCalvingMonth,
       selectedMilkYield,
+      remarks,
     });
 
     // Save the form data to MongoDB
@@ -199,7 +202,7 @@ app.get('/api/formData', async (req, res) => {
           <td>${data.selectedLactation}</td>
           <td>${data.selectedCalvingMonth}</td>
           <td>${data.selectedMilkYield}</td> <!-- Added Milk Yield -->
-          <td>${data.createdAt}</td>
+          <td>${data.remarks}</td> <!-- Added Milk Yield -->
         </tr>
       `;
     }).join('');
@@ -247,7 +250,7 @@ app.get('/api/formData', async (req, res) => {
                 <th>Lactation</th>
                 <th>Calving Month</th>
                 <th>Milk Yield</th> <!-- Added Milk Yield Column -->
-                <th>Created At</th>
+                <th>Remarks</th> <!-- Added Milk Yield Column -->
               </tr>
             </thead>
             <tbody>
