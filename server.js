@@ -87,10 +87,7 @@ app.post('/api/submit', async (req, res) => {
       selectedCalvingMonth,
       selectedMilkYield,
       remarks,
-      tagNo,
-      tagDate,
-      marketValue,
-      vendorRemark,
+      
     });
 
     // Save the form data to MongoDB
@@ -192,70 +189,78 @@ app.get('/', async (req, res) => {
 app.get('/api/formData', async (req, res) => {
   try {
     const formData = await FormDataModel.find(); // Fetch all form data from the database
-    
+
     // Check if data exists
     if (!formData || formData.length === 0) {
       return res.status(404).send('No form data found.');
     }
 
     // Generate HTML table with form data
-    let tableRows = formData.map((data) => {
+    let tableRows = formData.map((data, index) => {
       return `
-        <tr>
-          <td colspan="2"><strong>Tag Details</strong></td>
-        </tr>
-        <tr>
-          <td><strong>Tag No</strong></td><td>${data.tagNo}</td>
-        </tr>
-        <tr>
-          <td><strong>Tag Date</strong></td><td>${data.tagDate}</td>
-        </tr>
-        <tr>
-          <td><strong>Market Value</strong></td><td>${data.marketValue}</td>
-        </tr>
-        <tr>
-          <td><strong>Vendor Remark</strong></td><td>${data.vendorRemark}</td>
-        </tr>
-        
-        <tr>
-          <td colspan="2"><strong>Cattle Details</strong></td>
-        </tr>
-        <tr>
-          <td><strong>Species</strong></td><td>${data.selectedSpecies}</td>
-        </tr>
-        <tr>
-          <td><strong>Breed</strong></td><td>${data.selectedBreed}</td>
-        </tr>
-        <tr>
-          <td><strong>Breed Type</strong></td><td>${data.selectedBreedType}</td>
-        </tr>
-        <tr>
-          <td><strong>Body Color</strong></td><td>${data.selectedBodyColor}</td>
-        </tr>
-        <tr>
-          <td><strong>Left Horn</strong></td><td>${data.selectedLeftHorn}</td>
-        </tr>
-        <tr>
-          <td><strong>Right Horn</strong></td><td>${data.selectedRightHorn}</td>
-        </tr>
-        <tr>
-          <td><strong>Tail Switch</strong></td><td>${data.selectedTailSwitch}</td>
-        </tr>
-        <tr>
-          <td><strong>Age</strong></td><td>${data.selectedAge}</td>
-        </tr>
-        <tr>
-          <td><strong>Lactation</strong></td><td>${data.selectedLactation}</td>
-        </tr>
-        <tr>
-          <td><strong>Calving Month</strong></td><td>${data.selectedCalvingMonth}</td>
-        </tr>
-        <tr>
-          <td><strong>Milk Yield</strong></td><td>${data.selectedMilkYield}</td>
-        </tr>
-        <tr>
-          <td><strong>Remarks</strong></td><td>${data.remarks}</td>
-        </tr>
+        <div>
+          <!-- Collapsible Header -->
+          <button class="collapsible">Form Data Entry ${index + 1}</button>
+          <div class="content">
+            <table>
+              <tr>
+                <td colspan="2"><strong>Tag Details</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Tag No</strong></td><td>${data.tagNo}</td>
+              </tr>
+              <tr>
+                <td><strong>Tag Date</strong></td><td>${data.tagDate}</td>
+              </tr>
+              <tr>
+                <td><strong>Market Value</strong></td><td>${data.marketValue}</td>
+              </tr>
+              <tr>
+                <td><strong>Vendor Remark</strong></td><td>${data.vendorRemark}</td>
+              </tr>
+              
+              <tr>
+                <td colspan="2"><strong>Cattle Details</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Species</strong></td><td>${data.selectedSpecies}</td>
+              </tr>
+              <tr>
+                <td><strong>Breed</strong></td><td>${data.selectedBreed}</td>
+              </tr>
+              <tr>
+                <td><strong>Breed Type</strong></td><td>${data.selectedBreedType}</td>
+              </tr>
+              <tr>
+                <td><strong>Body Color</strong></td><td>${data.selectedBodyColor}</td>
+              </tr>
+              <tr>
+                <td><strong>Left Horn</strong></td><td>${data.selectedLeftHorn}</td>
+              </tr>
+              <tr>
+                <td><strong>Right Horn</strong></td><td>${data.selectedRightHorn}</td>
+              </tr>
+              <tr>
+                <td><strong>Tail Switch</strong></td><td>${data.selectedTailSwitch}</td>
+              </tr>
+              <tr>
+                <td><strong>Age</strong></td><td>${data.selectedAge}</td>
+              </tr>
+              <tr>
+                <td><strong>Lactation</strong></td><td>${data.selectedLactation}</td>
+              </tr>
+              <tr>
+                <td><strong>Calving Month</strong></td><td>${data.selectedCalvingMonth}</td>
+              </tr>
+              <tr>
+                <td><strong>Milk Yield</strong></td><td>${data.selectedMilkYield}</td>
+              </tr>
+              <tr>
+                <td><strong>Remarks</strong></td><td>${data.remarks}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
       `;
     }).join('');
 
@@ -272,7 +277,7 @@ app.get('/api/formData', async (req, res) => {
             table {
               width: 100%;
               border-collapse: collapse;
-              margin-top: 20px;
+              margin-top: 10px;
             }
             table, th, td {
               border: 1px solid #ddd;
@@ -288,24 +293,46 @@ app.get('/api/formData', async (req, res) => {
               padding-left: 20px;
               padding-right: 20px;
             }
+            .collapsible {
+              background-color: #777;
+              color: white;
+              cursor: pointer;
+              padding: 10px;
+              width: 100%;
+              border: none;
+              text-align: left;
+              font-size: 15px;
+              margin-bottom: 5px;
+            }
+            .active, .collapsible:hover {
+              background-color: #555;
+            }
+            .content {
+              padding: 0 18px;
+              display: none;
+              overflow: hidden;
+              background-color: #f1f1f1;
+            }
           </style>
         </head>
         <body>
-          <h1>Form Data Table</h1>
-          <table>
-            <thead>
-              <tr>
-                <th colspan="2" style="text-align:center;">Form Data Overview</th>
-              </tr>
-              <tr>
-                <th>Field</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${tableRows}
-            </tbody>
-          </table>
+          <h1>Form Data Overview</h1>
+          ${tableRows}
+          <script>
+            // JavaScript to toggle collapsible content visibility
+            var coll = document.getElementsByClassName("collapsible");
+            for (var i = 0; i < coll.length; i++) {
+              coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                  content.style.display = "none";
+                } else {
+                  content.style.display = "block";
+                }
+              });
+            }
+          </script>
         </body>
       </html>
     `);
