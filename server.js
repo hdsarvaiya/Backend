@@ -33,7 +33,10 @@ const formDataSchema = new Schema({
   selectedCalvingMonth: String,
   selectedMilkYield : Number ,
   remarks: String, // Add remarks field
-  createdAt: { type: Date, default: Date.now },
+  tagNo: String, // Add Tag No from the first tab
+  tagDate: String, // Add Tag Date from the first tab
+  marketValue: String, // Add Market Value from the first tab
+  vendorRemark: String, // Add Vendor Remark from the first tab
 });
 
 const FormDataModel = mongoose.model('FormData', formDataSchema);
@@ -64,6 +67,10 @@ app.post('/api/submit', async (req, res) => {
       selectedCalvingMonth,
       selectedMilkYield,
       remarks,
+      tagNo,
+      tagDate,
+      marketValue,
+      vendorRemark,
     } = req.body;
 
     // Create a new document with the received form data
@@ -80,6 +87,10 @@ app.post('/api/submit', async (req, res) => {
       selectedCalvingMonth,
       selectedMilkYield,
       remarks,
+      tagNo,
+      tagDate,
+      marketValue,
+      vendorRemark,
     });
 
     // Save the form data to MongoDB
@@ -191,18 +202,59 @@ app.get('/api/formData', async (req, res) => {
     let tableRows = formData.map((data) => {
       return `
         <tr>
-          <td>${data.selectedSpecies}</td>
-          <td>${data.selectedBreed}</td>
-          <td>${data.selectedBreedType}</td>
-          <td>${data.selectedBodyColor}</td> <!-- Added Body Color -->
-          <td>${data.selectedLeftHorn}</td> <!-- Added Left Horn -->
-          <td>${data.selectedRightHorn}</td> <!-- Added Right Horn -->
-          <td>${data.selectedTailSwitch}</td> <!-- Added Tail Switch -->
-          <td>${data.selectedAge}</td>
-          <td>${data.selectedLactation}</td>
-          <td>${data.selectedCalvingMonth}</td>
-          <td>${data.selectedMilkYield}</td> <!-- Added Milk Yield -->
-          <td>${data.remarks}</td> <!-- Added Milk Yield -->
+          <td colspan="2"><strong>Tag Details</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Tag No</strong></td><td>${data.tagNo}</td>
+        </tr>
+        <tr>
+          <td><strong>Tag Date</strong></td><td>${data.tagDate}</td>
+        </tr>
+        <tr>
+          <td><strong>Market Value</strong></td><td>${data.marketValue}</td>
+        </tr>
+        <tr>
+          <td><strong>Vendor Remark</strong></td><td>${data.vendorRemark}</td>
+        </tr>
+        
+        <tr>
+          <td colspan="2"><strong>Cattle Details</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Species</strong></td><td>${data.selectedSpecies}</td>
+        </tr>
+        <tr>
+          <td><strong>Breed</strong></td><td>${data.selectedBreed}</td>
+        </tr>
+        <tr>
+          <td><strong>Breed Type</strong></td><td>${data.selectedBreedType}</td>
+        </tr>
+        <tr>
+          <td><strong>Body Color</strong></td><td>${data.selectedBodyColor}</td>
+        </tr>
+        <tr>
+          <td><strong>Left Horn</strong></td><td>${data.selectedLeftHorn}</td>
+        </tr>
+        <tr>
+          <td><strong>Right Horn</strong></td><td>${data.selectedRightHorn}</td>
+        </tr>
+        <tr>
+          <td><strong>Tail Switch</strong></td><td>${data.selectedTailSwitch}</td>
+        </tr>
+        <tr>
+          <td><strong>Age</strong></td><td>${data.selectedAge}</td>
+        </tr>
+        <tr>
+          <td><strong>Lactation</strong></td><td>${data.selectedLactation}</td>
+        </tr>
+        <tr>
+          <td><strong>Calving Month</strong></td><td>${data.selectedCalvingMonth}</td>
+        </tr>
+        <tr>
+          <td><strong>Milk Yield</strong></td><td>${data.selectedMilkYield}</td>
+        </tr>
+        <tr>
+          <td><strong>Remarks</strong></td><td>${data.remarks}</td>
         </tr>
       `;
     }).join('');
@@ -232,6 +284,10 @@ app.get('/api/formData', async (req, res) => {
             th {
               background-color: #f4f4f4;
             }
+            td {
+              padding-left: 20px;
+              padding-right: 20px;
+            }
           </style>
         </head>
         <body>
@@ -239,18 +295,11 @@ app.get('/api/formData', async (req, res) => {
           <table>
             <thead>
               <tr>
-                <th>Species</th>
-                <th>Breed</th>
-                <th>Breed Type</th>
-                <th>Body Color</th> <!-- Added Body Color Column -->
-                <th>Left Horn</th> <!-- Added Left Horn Column -->
-                <th>Right Horn</th> <!-- Added Right Horn Column -->
-                <th>Tail Switch</th> <!-- Added Tail Switch Column -->
-                <th>Age</th>
-                <th>Lactation</th>
-                <th>Calving Month</th>
-                <th>Milk Yield</th> <!-- Added Milk Yield Column -->
-                <th>Remarks</th> <!-- Added Milk Yield Column -->
+                <th colspan="2" style="text-align:center;">Form Data Overview</th>
+              </tr>
+              <tr>
+                <th>Field</th>
+                <th>Value</th>
               </tr>
             </thead>
             <tbody>
