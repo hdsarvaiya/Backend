@@ -23,13 +23,18 @@ const formDataSchema = new Schema({
   selectedSpecies: String,
   selectedBreed: String,
   selectedBreedType: String,
+  selectedBodyColor: String, // Added body color
   isLeftHornSelected: Boolean,
   isRightHornSelected: Boolean,
+  selectedLeftHorn: String, // Added left horn option
+  selectedRightHorn: String, // Added right horn option
   isTailSwitched: Boolean,
+  selectedTailSwitch: String, // Added tail switch state
   selectedAge: Number,
+  selectedMilkYield: Number, // Added milk yield field
   selectedLactation: Number,
   selectedCalvingMonth: String,
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
 });
 
 const FormDataModel = mongoose.model('FormData', formDataSchema);
