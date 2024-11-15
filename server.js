@@ -35,7 +35,6 @@ const formDataSchema = new Schema({
   selectedLactation: Number,
   selectedCalvingMonth: String,
   selectedMilkYield : Number ,
-
   createdAt: { type: Date, default: Date.now },
 });
 
@@ -68,7 +67,7 @@ app.post('/api/submit', async (req, res) => {
       selectedAge,
       selectedLactation,
       selectedCalvingMonth,
-      selectedMilkYield,
+      selectedMilkYield
     } = req.body;
 
     // Create a new document with the received form data
@@ -201,12 +200,17 @@ app.get('/api/formData', async (req, res) => {
           <td>${data.selectedSpecies}</td>
           <td>${data.selectedBreed}</td>
           <td>${data.selectedBreedType}</td>
+          <td>${data.selectedBodyColor}</td> <!-- Added Body Color -->
           <td>${data.isLeftHornSelected}</td>
           <td>${data.isRightHornSelected}</td>
+          <td>${data.selectedLeftHorn}</td> <!-- Added Left Horn -->
+          <td>${data.selectedRightHorn}</td> <!-- Added Right Horn -->
           <td>${data.isTailSwitched}</td>
+          <td>${data.selectedTailSwitch}</td> <!-- Added Tail Switch -->
           <td>${data.selectedAge}</td>
           <td>${data.selectedLactation}</td>
           <td>${data.selectedCalvingMonth}</td>
+          <td>${data.selectedMilkYield}</td> <!-- Added Milk Yield -->
           <td>${data.createdAt}</td>
         </tr>
       `;
@@ -247,12 +251,17 @@ app.get('/api/formData', async (req, res) => {
                 <th>Species</th>
                 <th>Breed</th>
                 <th>Breed Type</th>
+                <th>Body Color</th> <!-- Added Body Color Column -->
                 <th>Left Horn Selected</th>
                 <th>Right Horn Selected</th>
+                <th>Left Horn</th> <!-- Added Left Horn Column -->
+                <th>Right Horn</th> <!-- Added Right Horn Column -->
                 <th>Tail Switched</th>
+                <th>Tail Switch</th> <!-- Added Tail Switch Column -->
                 <th>Age</th>
                 <th>Lactation</th>
                 <th>Calving Month</th>
+                <th>Milk Yield</th> <!-- Added Milk Yield Column -->
                 <th>Created At</th>
               </tr>
             </thead>
@@ -268,6 +277,7 @@ app.get('/api/formData', async (req, res) => {
     res.status(500).json({ message: 'Error fetching form data', error });
   }
 });
+
 
 
 // Start the server
