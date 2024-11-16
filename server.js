@@ -213,7 +213,7 @@ app.get('/api/formData', async (req, res) => {
                 <td><strong>Tag No</strong></td><td>${data.tagNo}</td>
               </tr>
               <tr>
-                <td><strong>Tag Date</strong></td><td>${data.tagDate}</td>
+                <td><strong>Tag Date</strong></td><td>${new Date(data.tagDate).toISOString().split('T')[0]}</td>
               </tr>
               <tr>
                 <td><strong>Market Value</strong></td><td>${data.marketValue}</td>
