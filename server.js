@@ -207,7 +207,7 @@ app.get('/api/formData', async (req, res) => {
           <div class="content">
             <table>
               <tr>
-                <td colspan="2"><strong>Tag Details</strong></td>
+                <td colspan="2"><strong><h2>Tag Details</h2></strong></td>
               </tr>
               <tr>
                 <td><strong>Tag No</strong></td><td>${data.tagNo}</td>
@@ -223,7 +223,7 @@ app.get('/api/formData', async (req, res) => {
               </tr>
               
               <tr>
-                <td colspan="2"><strong>Cattle Details</strong></td>
+                <td colspan="2"><strong><h2>Cattle Details</h2></strong></td>
               </tr>
               <tr>
                 <td><strong>Species</strong></td><td>${data.selectedSpecies}</td>
