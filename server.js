@@ -20,7 +20,6 @@ conn.once('open', () => {
   console.log("Connected to MongoDB");
 });
 const formDataSchema = new Schema({
-  selectedBank: String, // Added selected bank
   selectedSpecies: String,
   selectedBreed: String,
   selectedBreedType: String,
@@ -56,7 +55,6 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.post('/api/submit', async (req, res) => {
   try {
     const {
-      selectedBank, // Include selected bank
       selectedSpecies,
       selectedBreed,
       selectedBreedType,
@@ -77,7 +75,6 @@ app.post('/api/submit', async (req, res) => {
 
     // Create a new document with the received form data
     const newFormData = new FormDataModel({
-      selectedBank,
       selectedSpecies,
       selectedBreed,
       selectedBreedType,
@@ -210,16 +207,13 @@ app.get('/api/formData', async (req, res) => {
           <div class="content">
             <table>
               <tr>
-                <td colspan="2"><strong>Tag Details</strong></td>
-              </tr>
-              <tr>
-                <td><strong>Bank</strong></td><td>${data.selectedBank}</td>
+                <td colspan="2"><strong><h2>Tag Details</h2></strong></td>
               </tr>
               <tr>
                 <td><strong>Tag No</strong></td><td>${data.tagNo}</td>
               </tr>
               <tr>
-                <td><strong>Tag Date</strong></td><td>${data.tagDate}</td>
+                <td><strong>Tag Date</strong></td><td>${new Date(data.tagDate).toISOString().split('T')[0]}</td>
               </tr>
               <tr>
                 <td><strong>Market Value</strong></td><td>${data.marketValue}</td>
@@ -229,7 +223,7 @@ app.get('/api/formData', async (req, res) => {
               </tr>
               
               <tr>
-                <td colspan="2"><strong>Cattle Details</strong></td>
+                <td colspan="2"><strong><h2>Cattle Details</h2></strong></td>
               </tr>
               <tr>
                 <td><strong>Species</strong></td><td>${data.selectedSpecies}</td>
