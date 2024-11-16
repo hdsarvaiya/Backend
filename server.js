@@ -216,7 +216,7 @@ app.get('/api/formData', async (req, res) => {
                 <td colspan="2"><strong><h2>Tag Details</h2></strong></td>
               </tr>
                <tr>
-                <td><strong>Bank</strong></td><td>${data.selectedCattle}</td>
+                <td><strong><h3>Cattle</h3></strong></td><td>${data.selectedCattle}</td>
               </tr>
                <tr>
                 <td><strong>Bank</strong></td><td>${data.selectedBank}</td>
