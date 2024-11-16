@@ -34,7 +34,7 @@ const formDataSchema = new Schema({
   selectedMilkYield : Number ,
   remarks: String, // Add remarks field
   tagNo: String, // Add Tag No from the first tab
-  tagDate: String, // Add Tag Date from the first tab
+  tagDate: Date, // Add Tag Date from the first tab
   marketValue: String, // Add Market Value from the first tab
   vendorRemark: String, // Add Vendor Remark from the first tab
 });
@@ -91,7 +91,6 @@ app.post('/api/submit', async (req, res) => {
       tagDate,
       marketValue,
       vendorRemark,
-      
     });
 
     // Save the form data to MongoDB
