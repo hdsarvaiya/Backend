@@ -20,6 +20,7 @@ conn.once('open', () => {
   console.log("Connected to MongoDB");
 });
 const formDataSchema = new Schema({
+  name: String,
   selectedBank: String, // Added selected bank
   selectedCattle: String, // Added selected bank
   selectedSpecies: String,
@@ -57,6 +58,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.post('/api/submit', async (req, res) => {
   try {
     const {
+      name,
       selectedBank, // Include selected bank
       selectedCattle, // Include selected bank
       selectedSpecies,
@@ -79,6 +81,7 @@ app.post('/api/submit', async (req, res) => {
 
     // Create a new document with the received form data
     const newFormData = new FormDataModel({
+      name,
       selectedBank, // Include selected bank
       selectedCattle, // Include selected bank
       selectedSpecies,
@@ -209,7 +212,7 @@ app.get('/api/formData', async (req, res) => {
       return `
         <div>
           <!-- Collapsible Header -->
-          <button class="collapsible">Form Data Entry ${index + 1}</button>
+          <button class="collapsible">${data.name}</button>
           <div class="content">
             <table>
               <tr>
